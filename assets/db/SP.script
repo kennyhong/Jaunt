@@ -1,0 +1,23 @@
+CREATE SCHEMA PUBLIC AUTHORIZATION DBA
+CREATE MEMORY TABLE POINTS(POINTID INTEGER NOT NULL PRIMARY KEY,TITLE VARCHAR(255),TEXT VARCHAR(255), REFERENCE VARCHAR(255), CHILDREN VARCHAR(255))
+CREATE MEMORY TABLE SAVES(SAVEID INTEGER NOT NULL PRIMARY KEY,SAVEPOINT INTEGER NOT NULL,SUMMARY VARCHAR(255))
+CREATE MEMORY TABLE HISTORY(SAVEID INTEGER NOT NULL, CONSTRAINT CONSTRAINT1 PRIMARY KEY(SAVEID), CONSTRAINT CONSTRAINT2 FOREIGN KEY(SAVEID) REFERENCES SAVES(SAVEID))
+CREATE USER SA PASSWORD ''
+GRANT DBA TO SA
+SET WRITE_DELAY 20 
+SET SCHEMA PUBLIC
+INSERT INTO POINTS VALUES(0,'City of Winnipeg', 'You are in the busy streets of Osbourne, what do you do?', NULL, '1,2')
+INSERT INTO POINTS VALUES(1,'The Toad', 'You arrive at The Toad and your favourite band is playing','Go to the Bar', '3,4')
+INSERT INTO POINTS VALUES(2,'Kawaii Crepe', 'You order crepe to celebrate your first day off in weeks.', 'Get food', '5,6')
+INSERT INTO POINTS VALUES(3,'The Toad - Bar', 'It''s your day off, you decide to relax', 'Drink', '7,8')
+INSERT INTO POINTS VALUES(4,'The Toad - Exit', 'It''s your day off, you don''t feel like drinking', 'Drive home', '9,10')
+INSERT INTO POINTS VALUES(5,'Kawaii Crepe - Counter', 'You decide to eat in and enjoy the view of a beautiful woman', 'Eat in', '11,12')
+INSERT INTO POINTS VALUES(6,'Kawaii Crepe - Exit', 'You decide to take out and eat at home', 'Take out', '13,14')
+INSERT INTO POINTS VALUES(7,'The Toad - Band', 'Game Over: As you grab your drink you realize your friend''s band is playing and decide to chill with him for the rest of the night.', 'Listen to Band', NULL)
+INSERT INTO POINTS VALUES(8,'The Toad - More Drinks', 'Game Over: You ignore your surroundings and start drinking liquor like water. You are Drunk', 'Drink more', NULL)
+INSERT INTO POINTS VALUES(9,'Home', 'Game Over: You decide to go to bed', 'Go Home', NULL)
+INSERT INTO POINTS VALUES(10,'Theatre', 'Game Over: You decide to watch a movie and end your night.', 'Watch a movie', NULL)
+INSERT INTO POINTS VALUES(11,'Kawaii Crepe - Girl', 'Game Over: You meet a lady and decide to chat with her, you get turned down', 'Talk to Girl', NULL)
+INSERT INTO POINTS VALUES(12,'Kawaii Crepe - Loner', 'Game Over: You stay quiet and continue eating. You spend the rest of your life alone.', 'Ignore the girl', NULL)
+INSERT INTO POINTS VALUES(13,'The Cube - Music', 'Game Over: You listen to the live music at the cube and enjoy it.', 'Go Downtown', NULL)
+INSERT INTO POINTS VALUES(14,'Home - Netflix', 'Game Over: You decide to watch Netflix at home and end your night, little did you know, it was all a dream.', 'Drive home', NULL)

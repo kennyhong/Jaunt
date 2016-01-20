@@ -1,0 +1,182 @@
+package comp3350.jaunt.presentation;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.media.MediaPlayer;
+import comp3350.jaunt.R;
+import comp3350.jaunt.application.Main;
+import comp3350.jaunt.presentation.Messages;
+
+public class ActivityHome extends Activity 
+{
+	private MediaPlayer mp;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) 
+	{
+		super.onCreate(savedInstanceState);
+		
+		Main.startUp();
+		
+		if(mp != null)
+		{
+			mp.stop();
+		}
+		
+		mp = MediaPlayer.create(ActivityHome.this, R.raw.home);
+		mp.setLooping(true);
+		mp.start();
+		
+		copyDatabaseToDevice();
+		
+		setContentView(R.layout.activity_home);
+		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.activity_home, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		int id = item.getItemId();
+		if(id == R.id.action_settings)
+		{
+			return true;
+		}
+		else if(id == R.id.help)
+		{
+			createHelpLayout();
+		}		
+		
+		return true;
+	}
+	
+    private void copyDatabaseToDevice() {
+    	final String DB_PATH = "db";
+
+    	String[] assetNames;
+    	Context context = getApplicationContext();
+    	File dataDirectory = context.getDir(DB_PATH, Context.MODE_PRIVATE);
+    	AssetManager assetManager = getAssets();
+    	
+    	try {
+
+    		assetNames = assetManager.list(DB_PATH);
+    		for (int i = 0; i < assetNames.length; i++) {
+    			assetNames[i] = DB_PATH + "/" + assetNames[i];
+    		}
+
+    		copyAssetsToDirectory(assetNames, dataDirectory);
+    		
+    		Main.setDBPathName(dataDirectory.toString() + "/" + Main.dbName);
+
+    	} catch (IOException ioe) {
+    		Messages.warning(this, "Unable to access application data: " + ioe.getMessage());
+    	}
+    }
+    
+    public void copyAssetsToDirectory(String[] assets, File directory) throws IOException {
+    	AssetManager assetManager = getAssets();
+
+    	for (String asset : assets) {
+    		String[] components = asset.split("/");
+    		String copyPath = directory.toString() + "/" + components[components.length - 1];
+    		char[] buffer = new char[1024];
+    		int count;
+    		
+    		File outFile = new File(copyPath);
+    		
+    		if (!outFile.exists()) {
+    			InputStreamReader in = new InputStreamReader(assetManager.open(asset));
+	    		FileWriter out = new FileWriter(outFile);
+	    		
+	    		count = in.read(buffer);
+	    		while (count != -1) {
+	    			out.write(buffer, 0, count);
+	        		count = in.read(buffer);
+	    		}
+	    		
+	    		out.close();
+	    		in.close();
+    		}
+    	}
+	}
+	
+	private void createHelpLayout()
+	{
+		final RelativeLayout layout = (RelativeLayout) findViewById(R.id.homeLayout);
+		final LinearLayout helpLayout = new LinearLayout(this);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
+		helpLayout.setLayoutParams(params);
+		helpLayout.setId(R.id.helpLayout);
+		helpLayout.setOrientation(LinearLayout.VERTICAL);
+		helpLayout.setPadding(20, 20, 20, 20);
+		helpLayout.setBackgroundColor(getResources().getColor(R.color.grey));
+		
+		TextView text = new TextView(this);
+		text.setWidth(LayoutParams.MATCH_PARENT);
+		text.setHeight(700);
+		text.setTextSize(28);
+		text.setText("For help email us at ...");
+		
+		Button done = new Button(this);
+		done.setWidth(LayoutParams.MATCH_PARENT);
+		done.setHeight(LayoutParams.WRAP_CONTENT);
+		done.setText(R.string.returnHome);
+		done.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				layout.removeView(helpLayout);
+			}
+		});
+		
+		helpLayout.addView(text);
+		helpLayout.addView(done);
+		layout.addView(helpLayout);
+	}
+	
+	public void onNewGameClick(View v)
+	{
+		Intent intent = new Intent(ActivityHome.this, ActivityGame.class);
+		mp.stop();
+		startActivity(intent);
+	}
+	
+	public void onContinueClick(View v)
+	{
+		Intent intent = new Intent(ActivityHome.this, ActivityGame.class);
+		intent.putExtra("Continue", true);
+		mp.stop();
+		startActivity(intent);
+	}
+	
+	public void onOptionsClick(View v)
+	{
+		
+	}
+}

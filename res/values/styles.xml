@@ -1,0 +1,33 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        
+    </style>
+    
+    <style name="BookMode" parent="AppBaseTheme">
+        <item name="android:windowBackground">@color/yellow</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
+        
+    </style>
+    
+    <style name="NightMode" parent="AppBaseTheme">
+        <item name="android:windowBackground">@color/grey</item>
+        <item name="android:textColor">#E6E6E6</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
+    </style>
+    
+    <style name="NightButton" parent="AppBaseTheme">
+        <item name="android:textColor">#E6E6E6</item>
+    </style>
+
+</resources>

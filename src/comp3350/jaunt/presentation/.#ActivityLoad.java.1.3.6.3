@@ -1,0 +1,105 @@
+package comp3350.jaunt.presentation;
+
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import comp3350.jaunt.R;
+import comp3350.jaunt.application.Services;
+import comp3350.jaunt.business.AccessSaveData;
+import comp3350.jaunt.business.AccessStoryPoints;
+import comp3350.jaunt.objects.Save;
+
+public class ActivityLoad extends Activity 
+{
+	private AccessSaveData accessSaves;
+	private AccessStoryPoints accessPoints;
+	private ArrayList<Save> saves;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) 
+	{
+		if(Services.checkNightModeEnabled())
+		{
+			setTheme(R.style.NightMode);
+		} else
+		{
+			setTheme(R.style.BookMode);
+		}
+		
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_load);
+		
+		accessSaves = new AccessSaveData();
+		accessPoints = new AccessStoryPoints();
+		saves = new ArrayList<Save>();
+		accessSaves.getSaveFiles(saves);
+		createSaveButtons();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		int id = item.getItemId();
+		if (id == R.id.action_settings) 
+		{
+			DialogSettings options = new DialogSettings(this);
+			options.show(getFragmentManager(), "dialog");
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private void createSaveButtons()
+	{
+		LinearLayout layout = (LinearLayout) findViewById(R.id.saves);
+		
+		for(int i = 0; i < saves.size(); i++)
+		{
+			Button button = new Button(this);
+			Save currSave = saves.get(i);
+			int savePoint = currSave.getSavePoint();
+			String text = String.format("%-5d%-10s", currSave.getSaveID(), accessPoints.getPoint(savePoint));
+			button.setText(text);
+			button.setTag(i+1);
+			button.setId(i+1);
+			button.setOnClickListener(new OnClickListener()
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					onSaveClick(v, v.getId());
+				}
+			});
+		
+			layout.addView(button);
+		}
+	}
+	
+	public void onSaveClick(View v, int id)
+	{
+		Intent intent = new Intent(ActivityLoad.this, ActivityGame.class);
+		intent.putExtra("Continue", true);
+		intent.putExtra("SaveID", id);
+		startActivity(intent);
+	}
+	
+	public void onBackClick(View v)
+	{
+		Intent intent = new Intent(ActivityLoad.this, ActivityHome.class);
+		startActivity(intent);
+	}
+}

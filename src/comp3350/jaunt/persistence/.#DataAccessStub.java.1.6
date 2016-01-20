@@ -1,0 +1,103 @@
+package comp3350.jaunt.persistence;
+
+import java.util.ArrayList;
+
+import comp3350.jaunt.application.Main;
+import comp3350.jaunt.objects.LinkedList;
+import comp3350.jaunt.objects.Node;
+import comp3350.jaunt.objects.StoryPoint;
+
+public class DataAccessStub 
+{
+	private String dbName;
+	private String dbType = "stub";
+	
+	private ArrayList<StoryPoint> storyPoints;
+	private ArrayList<String> history;
+	
+	public DataAccessStub(String dbName)
+	{
+		this.dbName = dbName;
+	}
+
+	public DataAccessStub()
+	{
+		this(Main.dbName);
+	}
+	
+	public void open(String dbName)
+	{
+		StoryPoint point;
+		history = new ArrayList<String>();
+		storyPoints = new ArrayList<StoryPoint>();
+		
+		point = new StoryPoint("City of Winnipeg", "You are in the busy streets of Osbourne, what do you do?");
+		storyPoints.add(point);
+		point = new StoryPoint("The Toad", "You arrive at The Toad and your favourite band is playing", "Go to the Bar");
+		storyPoints.add(point);
+		point = new StoryPoint("Kawaii Crepe", "You order crepe to celebrate your first day off in weeks.", "Get food");
+		storyPoints.add(point);
+		point = new StoryPoint("The Toad - Bar", "It's your day off, you decide to relax", "Drink");
+		storyPoints.add(point);
+		point = new StoryPoint("The Toad - Exit", "It's your day off, you don't feel like drinking", "Drive home");
+		storyPoints.add(point);
+		point = new StoryPoint("Kawaii Crepe - Counter", "You decide to eat in and enjoy the view of a beautiful woman", "Eat in");
+		storyPoints.add(point);
+		point = new StoryPoint("Kawaii Crepe - Exit", "You decide to take out and eat at home", "Take out");
+		storyPoints.add(point);
+		point = new StoryPoint("The Toad - Band", "Game Over: As you grab your drink you realize your friend's band is playing and decide to chill with him for the rest of the night.", "Listen to Band");
+		storyPoints.add(point);
+		point = new StoryPoint("The Toad - More Drinks", "Game Over: You ignore your surroundings and start drinking liquor like water. You are Drunk", "Drink more");
+		storyPoints.add(point);
+		point = new StoryPoint("Home", "Game Over: You decide to go to bed", "Go Home");
+		storyPoints.add(point);
+		point = new StoryPoint("Theatre", "Game Over: You decide to watch a movie and end your night.", "Watch a movie");
+		storyPoints.add(point);
+		point = new StoryPoint("Kawaii Crepe - Girl", "Game Over: You meet a lady and decide to chat with her", "Talk to Girl");
+		storyPoints.add(point);
+		point = new StoryPoint("Kawaii Crepe - Loner", "Game Over: You stay quiet and continue eating. You spend the rest of the night alone.", "Ignore the girl");
+		storyPoints.add(point);
+		point = new StoryPoint("The Cube - Music", "Game Over: You listen to the live music at the cube and enjoy it.", "Go Downtown");
+		storyPoints.add(point);
+		point = new StoryPoint("Home - Netflix", "Game Over: You decide to watch Netflix at home and end your night", "Drive home");
+		storyPoints.add(point);
+	}
+	
+	public void close()
+	{
+		System.out.println("Closed " +dbType +" database " +dbName);
+	}
+
+	public String getPointsSequential(LinkedList<StoryPoint> points) 
+	{
+		points.addAll(storyPoints);
+		return null;
+	}
+	
+	public void addToHistory(String point)
+	{
+		history.add(point);
+	}
+	
+	public void updateHistory(LinkedList<String> points)
+	{
+		history.clear();
+		Node<String> curr = points.getHead();
+		while(curr != null)
+		{
+			history.add(curr.getItem());
+			curr = curr.getNext();
+		}
+	}
+	
+	public void deleteFromHistory()
+	{
+		history.remove(history.size()-1);
+	}
+	
+	public String getHistorySequential(LinkedList<String> historyPoints)
+	{
+		historyPoints.addAll(history);
+		return null;
+	}
+}

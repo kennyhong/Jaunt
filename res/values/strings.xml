@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Jaunt</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="welcome_msg">Welcome to Jaunt, what would you like to do?</string>
+    <string name="new_game">New Game</string>
+    <string name="continue_game">Continue</string>
+    <string name="game_settings">Settings</string>
+    <string name="returnHome">Return to Home Page</string>
+    <string name="restart">Restart Game</string>
+    <string name="fatalError">FATAL ERROR!</string>
+    <string name="warning">WARNING!</string>
+    <string name="storyTitle">Default Title</string>
+    <string name="storyText">Default Text</string>
+    <string name="storyOption1">Default Option 1</string>
+    <string name="storyOption2">Default Option 2</string>
+    <string name="historyText">No History Text</string>
+    <string name="saveGame">Save Game</string>
+    <string name="help">Help</string>
+    <string name="toggle_music">Music</string>
+    <string name="textColorString">Select Text Color:</string>
+    <string name="rbtnWhite">White</string>
+    <string name="rbtnBlack">Black</string>
+    <string name="backgroundColor">Background Color</string>
+    <string name="back">Back</string>
+    <string name="textNightMode">Night Mode</string>
+    <string name="not_yet_implemented">Not Yet Implemented</string>
+    <string name="settingsClose">Close</string>
+    <string name="jauntTitle">JAUNT</string>
+    <string name="title_activity_activity_glossary">ActivityGlossary</string>
+    <string name="glossary">Glossary</string>
+
+</resources>
